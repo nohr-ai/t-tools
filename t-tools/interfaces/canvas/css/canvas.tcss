@@ -1,0 +1,13 @@
+#app-grid {
+    layout: grid;
+    grid-size: 2;  /* 2 columns */
+    grid-columns: 1fr auto;
+}
+
+#sidebar {
+    dock: left;
+    width: 15%;
+    height: 100%;
+    color: #0f2b41;
+    background: dodgerblue;
+}

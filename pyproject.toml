@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "ttools"
+version = "0.1.0"
+description = ""
+authors = ["Askepios-ai <oyvind.a.nohr@uit.no>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+textual = "^0.66.0"
+python-dotenv = "^1.0.1"
+canvasapi = "^3.2.0"
+pypdf = "^4.2.0"
+textual-terminal = "^0.3.0"
+fusepy = "^3.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+textual-dev = "^1.5.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
