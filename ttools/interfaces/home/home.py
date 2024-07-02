@@ -6,7 +6,8 @@ from textual.widgets import Header, ListView, ListItem, Static
 from textual.message import Message
 
 from helperfunctions import get_logger
-
+from textual import on
+from helperfunctions import TestMessage
 from ..canvas import Canvas
 
 logger = get_logger(__name__)
@@ -75,3 +76,7 @@ class Home(Screen):
             self.post_message(self.InterfaceMessage(event.item.label))
         else:
             logger.exception(ValueError(f"Unknown item type:{type(event.item)}"))
+
+    @on(TestMessage)
+    def my_test(self, event):
+        logger.debug("home recv test message")

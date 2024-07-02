@@ -16,6 +16,8 @@ import builtins
 
 logger = get_logger(__name__)
 
+from helperfunctions import TestMessage
+
 
 class Canvas(Screen):
     """
@@ -74,6 +76,9 @@ class Canvas(Screen):
 
     def update(self, course_id) -> None:
         self.courses[course_id] = Course(self._handle.get_course(course_id))
+
+    def on_test_message(self, event: TestMessage) -> None:
+        logger.debug("Received test message")
 
     def get_courses(self) -> dict[int, Course]:
         """

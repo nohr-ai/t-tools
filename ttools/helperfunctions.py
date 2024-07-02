@@ -12,6 +12,7 @@ import builtins
 import inspect
 
 import textual.widgets
+from textual.message import Message
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +42,9 @@ def get_logger(
         "[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s"
     )
     logger = logging.getLogger(name)
-    handler = RotatingFileHandler(os.getenv("LOG_FILE"), maxBytes=100000, backupCount=1)
+    handler = RotatingFileHandler(
+        "logs/" + os.getenv("LOG_FILE"), maxBytes=100000, backupCount=1
+    )
     handler.setFormatter(formatter)
     handler.setLevel(log_level)
     logger.addHandler(handler)
@@ -152,3 +155,9 @@ def get_methods(
             except Exception:
                 continue
     return methods
+
+
+class TestMessage(Message):
+    def __init__(self, message: str):
+        super().__init__()
+        self.message = message

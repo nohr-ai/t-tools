@@ -1,4 +1,5 @@
 from __future__ import annotations
+import os
 
 # Before loading any user-defined modules, load the .env file
 from dotenv import load_dotenv, find_dotenv
@@ -10,10 +11,13 @@ from interfaces.canvas.student import Student
 from interfaces.canvas.assignment import Assignment
 
 from helperfunctions import get_logger
-
+from ttools.filesystem import FS
 import builtins
 from textual.app import App
+from textual import on
+from textual.message import Message
 
+from helperfunctions import TestMessage
 
 logger = get_logger(__name__)
 
@@ -26,7 +30,6 @@ class TATools(App):
     BINDINGS = [
         ("ctrl+z", "suspend_process", "suspend"),
         ("q", "quit", "quit"),
-        ("t", "toggle_dark", "Toggle dark mode"),
     ]
     MODES = {
         "Home": Home,
@@ -35,6 +38,7 @@ class TATools(App):
 
     def __init__(self):
         super().__init__()
+        self.fss: dict[str:FS] = {}
 
     def on_mount(self) -> None:
         self.switch_mode("Home")
@@ -68,6 +72,35 @@ class TATools(App):
         logger.debug(f"Pushing terminal: {event.terminal}")
         self.push_screen(event.terminal)
 
+    def on_fs_request(self, event: FS.Request) -> None:
+        logger.debug(f"FS Request: {event}")
+        if not event.mount_point.startswith("./"):
+            self.post_event(
+                FS.Response(
+                    event.id,
+                    FS.Status(
+                        event.id, False, ValueError("Mount point must start with ./")
+                    ),
+                )
+            )
+        try:
+            os.mkdir(event.mount_point)
+        except FileExistsError:
+            pass
+        for mountpoint in self.fss:
+            if mountpoint.startswith(event.mount_point):
+                logger.debug(f"Already mounted {mountpoint}")
+                return
+
+    def my_shutdown(self):
+        logger.debug("My own shutdown")
+
+    def my_run(self):
+        try:
+            self.run()
+        finally:
+            self.my_shutdown()
+
 
 if __name__ == "__main__":
-    TATools().run()
+    TATools().my_run()

@@ -1,0 +1,8 @@
+[2024-06-18 01:03:18,990] [__main__] [DEBUG] args:Namespace(mount='testdir/')
+[2024-06-18 01:03:18,990] [__main__] [DEBUG] args:Namespace(mount='testdir/')
+[2024-06-18 01:03:18,990] [__main__] [DEBUG] /home/nohr/documents/uit/t-tools/ttools/interfaces/canvas/testdir
+[2024-06-18 01:03:18,990] [__main__] [DEBUG] /home/nohr/documents/uit/t-tools/ttools/interfaces/canvas/testdir
+[2024-06-18 01:03:18,990] [__main__] [DEBUG] root:/home/nohr/documents/uit/t-tools/ttools/interfaces/canvas/testdir
+[2024-06-18 01:03:18,990] [__main__] [DEBUG] root:/home/nohr/documents/uit/t-tools/ttools/interfaces/canvas/testdir
+[2024-06-18 01:03:19,486] [__main__] [DEBUG] getattr:/home/nohr/documents/uit/t-tools/ttools/interfaces/canvas/testdir/.git
+[2024-06-18 01:03:19,486] [__main__] [DEBUG] getattr:/home/nohr/documents/uit/t-tools/ttools/interfaces/canvas/testdir/.git

@@ -160,6 +160,17 @@ tests-mypy = ["mypy (>=1.6)", "pytest-mypy-plugins"]
 tests-no-zope = ["attrs[tests-mypy]", "cloudpickle", "hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist[psutil]"]
 
 [[package]]
+name = "cachetools"
+version = "5.3.3"
+description = "Extensible memoizing collections and decorators"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "cachetools-5.3.3-py3-none-any.whl", hash = "sha256:0abad1021d3f8325b2fc1d2e9c8b9c9d57b04c3932657a72465447332c24d945"},
+    {file = "cachetools-5.3.3.tar.gz", hash = "sha256:ba29e2dfa0b8b556606f097407ed1aa62080ee108ab0dc5ec9d6a723a007d105"},
+]
+
+[[package]]
 name = "canvasapi"
 version = "3.2.0"
 description = "API wrapper for the Canvas LMS"
@@ -396,13 +407,19 @@ files = [
 ]
 
 [[package]]
-name = "fusepy"
-version = "3.0.1"
-description = "Simple ctypes bindings for FUSE"
+name = "fuse-python"
+version = "1.0.8"
+description = "Bindings for FUSE"
 optional = false
 python-versions = "*"
 files = [
-    {file = "fusepy-3.0.1.tar.gz", hash = "sha256:72ff783ec2f43de3ab394e3f7457605bf04c8cf288a2f4068b4cde141d4ee6bd"},
+    {file = "fuse_python-1.0.8-cp310-cp310-manylinux_2_28_aarch64.whl", hash = "sha256:9a83a89c05ae177f499699c0d2378858080c0aa00dcec57515619c12e4c74769"},
+    {file = "fuse_python-1.0.8-cp310-cp310-manylinux_2_28_x86_64.whl", hash = "sha256:66c914e9956b2075d3228e0437950ea0ec14187975eb11307abbacd308902a97"},
+    {file = "fuse_python-1.0.8-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:4a7aed3614f4643c83e4d23fe3bca9c66b1560b7f4b75b0b6268f4d14c6fc43c"},
+    {file = "fuse_python-1.0.8-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:ecf158c7ed9b1aef0d1206d48a59942ef541ed6f25a133d9f4fd9a70d57ee8b5"},
+    {file = "fuse_python-1.0.8-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:f0591e7d9e9e9a11aed4d3b548c31b17f5003f0fcbdc59a0bb7bb72ab294c3fe"},
+    {file = "fuse_python-1.0.8-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:694ac8b91b7564696a0e2cc2e59e4f9d48115f648b53314ba312db73bc5fe646"},
+    {file = "fuse_python-1.0.8.tar.gz", hash = "sha256:6d27023207162ae82145b42cb5e26ef11b2eccc60c8b85f5528fee3e94475187"},
 ]
 
 [[package]]
@@ -657,6 +674,46 @@ files = [
 ]
 
 [[package]]
+name = "patool"
+version = "2.3.0"
+description = "portable archive file manager"
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "patool-2.3.0-py2.py3-none-any.whl", hash = "sha256:e91bcd067b3967eab38ac4c6d2673b834087fcd3e036affd7f64047d0c5546c9"},
+    {file = "patool-2.3.0.tar.gz", hash = "sha256:498e294fd8c7d50889d65019d431c6867bf3fb1fec5ea2d39d1d39d1215002f8"},
+]
+
+[[package]]
+name = "psutil"
+version = "6.0.0"
+description = "Cross-platform lib for process and system monitoring in Python."
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,>=2.7"
+files = [
+    {file = "psutil-6.0.0-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:a021da3e881cd935e64a3d0a20983bda0bb4cf80e4f74fa9bfcb1bc5785360c6"},
+    {file = "psutil-6.0.0-cp27-cp27m-manylinux2010_i686.whl", hash = "sha256:1287c2b95f1c0a364d23bc6f2ea2365a8d4d9b726a3be7294296ff7ba97c17f0"},
+    {file = "psutil-6.0.0-cp27-cp27m-manylinux2010_x86_64.whl", hash = "sha256:a9a3dbfb4de4f18174528d87cc352d1f788b7496991cca33c6996f40c9e3c92c"},
+    {file = "psutil-6.0.0-cp27-cp27mu-manylinux2010_i686.whl", hash = "sha256:6ec7588fb3ddaec7344a825afe298db83fe01bfaaab39155fa84cf1c0d6b13c3"},
+    {file = "psutil-6.0.0-cp27-cp27mu-manylinux2010_x86_64.whl", hash = "sha256:1e7c870afcb7d91fdea2b37c24aeb08f98b6d67257a5cb0a8bc3ac68d0f1a68c"},
+    {file = "psutil-6.0.0-cp27-none-win32.whl", hash = "sha256:02b69001f44cc73c1c5279d02b30a817e339ceb258ad75997325e0e6169d8b35"},
+    {file = "psutil-6.0.0-cp27-none-win_amd64.whl", hash = "sha256:21f1fb635deccd510f69f485b87433460a603919b45e2a324ad65b0cc74f8fb1"},
+    {file = "psutil-6.0.0-cp36-abi3-macosx_10_9_x86_64.whl", hash = "sha256:c588a7e9b1173b6e866756dde596fd4cad94f9399daf99ad8c3258b3cb2b47a0"},
+    {file = "psutil-6.0.0-cp36-abi3-manylinux_2_12_i686.manylinux2010_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:6ed2440ada7ef7d0d608f20ad89a04ec47d2d3ab7190896cd62ca5fc4fe08bf0"},
+    {file = "psutil-6.0.0-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5fd9a97c8e94059b0ef54a7d4baf13b405011176c3b6ff257c247cae0d560ecd"},
+    {file = "psutil-6.0.0-cp36-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e2e8d0054fc88153ca0544f5c4d554d42e33df2e009c4ff42284ac9ebdef4132"},
+    {file = "psutil-6.0.0-cp36-cp36m-win32.whl", hash = "sha256:fc8c9510cde0146432bbdb433322861ee8c3efbf8589865c8bf8d21cb30c4d14"},
+    {file = "psutil-6.0.0-cp36-cp36m-win_amd64.whl", hash = "sha256:34859b8d8f423b86e4385ff3665d3f4d94be3cdf48221fbe476e883514fdb71c"},
+    {file = "psutil-6.0.0-cp37-abi3-win32.whl", hash = "sha256:a495580d6bae27291324fe60cea0b5a7c23fa36a7cd35035a16d93bdcf076b9d"},
+    {file = "psutil-6.0.0-cp37-abi3-win_amd64.whl", hash = "sha256:33ea5e1c975250a720b3a6609c490db40dae5d83a4eb315170c4fe0d8b1f34b3"},
+    {file = "psutil-6.0.0-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:ffe7fc9b6b36beadc8c322f84e1caff51e8703b88eee1da46d1e3a6ae11b4fd0"},
+    {file = "psutil-6.0.0.tar.gz", hash = "sha256:8faae4f310b6d969fa26ca0545338b21f73c6b15db7c4a8d934a5482faa818f2"},
+]
+
+[package.extras]
+test = ["enum34", "ipaddress", "mock", "pywin32", "wmi"]
+
+[[package]]
 name = "pygments"
 version = "2.18.0"
 description = "Pygments is a syntax highlighting package written in Python."
@@ -796,13 +853,13 @@ files = [
 
 [[package]]
 name = "textual"
-version = "0.66.0"
+version = "0.69.0"
 description = "Modern Text User Interface framework"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "textual-0.66.0-py3-none-any.whl", hash = "sha256:6088c6defc36afe6775a9a8707a52c54e6dadcde516d00b48902cc4d6946cbcd"},
-    {file = "textual-0.66.0.tar.gz", hash = "sha256:f2649a4a487bf939d2c78e10c06e3b9ce8562b978fbb07ba2ec8507006ea7aeb"},
+    {file = "textual-0.69.0-py3-none-any.whl", hash = "sha256:51d19a5eaeb00e6dabc7b1ef3d8de558dc78e55a3b273c8cf8273b3db574a651"},
+    {file = "textual-0.69.0.tar.gz", hash = "sha256:73736996f468f20efdc8854482db02bf8799586430a39bc0a7c97f91043081b0"},
 ]
 
 [package.dependencies]
@@ -830,21 +887,6 @@ click = ">=8.1.2"
 msgpack = ">=1.0.3"
 textual = ">=0.36.0"
 typing-extensions = ">=4.4.0,<5.0.0"
-
-[[package]]
-name = "textual-terminal"
-version = "0.3.0"
-description = "A terminal emulator widget for Textual."
-optional = false
-python-versions = ">=3.7,<4.0"
-files = [
-    {file = "textual_terminal-0.3.0-py3-none-any.whl", hash = "sha256:f00b22f5a59ef6d60b61453d7a98354647487c00342d4b0324221db18c4a90f1"},
-    {file = "textual_terminal-0.3.0.tar.gz", hash = "sha256:594e7323b74d1e395cf3ce39216cef78cb7c64d01ea71a60ea7b0f9b198e4c87"},
-]
-
-[package.dependencies]
-pyte = ">=0.8.1,<0.9.0"
-textual = ">=0.8.0"
 
 [[package]]
 name = "types-python-dateutil"
@@ -1016,4 +1058,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "d684e800cd1045e900ba3e1047ac0cee32900974650289b90786eb609a64b5a7"
+content-hash = "7671b0de5810a67da05aea13e4bd4661f993a2eb503049ebb14cbd119d056bf4"

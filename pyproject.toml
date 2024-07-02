@@ -7,12 +7,15 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-textual = "^0.66.0"
 python-dotenv = "^1.0.1"
 canvasapi = "^3.2.0"
 pypdf = "^4.2.0"
-textual-terminal = "^0.3.0"
-fusepy = "^3.0.1"
+textual = "^0.69.0"
+fuse-python = "^1.0.8"
+psutil = "^6.0.0"
+pyte = "^0.8.2"
+cachetools = "^5.3.3"
+patool = "^2.3.0"
 
 
 [tool.poetry.group.dev.dependencies]
