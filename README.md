@@ -21,7 +21,7 @@ To make things worse, every 4 years or so we might change our learning managemen
 
 Enough rant!
 
-T-tools is for managing these platforms in *one* user interface. It is in active development but as I do not get paid for scripting utilities, the update frequency vary a lot.
+T-tools is for managing these platforms in *one* terminal user interface. It is in active development but I do not get paid for scripting utilities, so the update frequency may vary.
 
 Feel free to drop an issue or reach out on email if you have comments/questions/problems.
 
