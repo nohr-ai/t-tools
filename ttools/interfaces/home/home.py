@@ -76,7 +76,3 @@ class Home(Screen):
             self.post_message(self.InterfaceMessage(event.item.label))
         else:
             logger.exception(ValueError(f"Unknown item type:{type(event.item)}"))
-
-    @on(TestMessage)
-    def my_test(self, event):
-        logger.debug("home recv test message")
