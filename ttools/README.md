@@ -82,3 +82,22 @@ The top level app is responsible for
 
 Other than that try to keep each module short, this naturally happens when most of the modules are new views.
 
+Use
+---
+You can use ttools as an application, and that's is intended usecase, but you can also import it as a library if you prefer that.
+
+Regardless of your method, ttools expects to find a few environmental variables in order to run. It will by default try to load .env files in your system. You can either have a .env files setup, or otherwise have the following variables available in your environment.
+
+```
+Logging
+LOG_FILE : Name warning logfiles
+LOG_DEBUG_FILE : Name debug logfiles
+
+Canvas
+CANVAS_URL : Base url for canvas, at UiT this would be uit.instructure.com
+CANVAS_TOKEN : Personal access token to the canvas API, set this up in your profile on canvas.
+```
+
+
+### App
+

@@ -1,7 +1,9 @@
 from __future__ import annotations
+import os
 import canvasapi
 from .file import File
 from .terminal import TerminalView
+from filesystem import FS
 
 from textual.app import ComposeResult
 from textual.screen import Screen
@@ -38,6 +40,26 @@ class Assignment(Screen):
         def as_assignment(self) -> Assignment:
             return self.assignment
 
+    class Request(Message):
+        def __init__(self, requestor: object, id: int, root: str, mount_point: str):
+            super().__init__()
+            self.requestor: object = requestor
+            self.id: int = id
+            self.root: str = root
+            self.mount_point: str = mount_point
+
+    class Status:
+        def __init__(self, id: int, status: bool, exception: Exception | None = None):
+            self.id: int = id
+            self.ok: bool = status
+            self.exception: Exception | None = exception
+
+    class Response(Message):
+        def __init__(self, id: int, status: FS.Status):
+            super().__init__()
+            self.id: int = id
+            self.status: FS.Status = status
+
     class Terminal(Message):
         def __init__(self, terminal: Screen):
             super().__init__()
@@ -47,10 +69,11 @@ class Assignment(Screen):
         self, assignment: canvasapi.assignment.Assignment, student_id: int
     ) -> None:
         super().__init__()
-        self.assignment = assignment
-        self.student_id = student_id
-        self.output = ""
-        self._files = self.submission()
+        self.assignment: canvasapi.assignment.Assignment = assignment
+        self.student_id: int = student_id
+        self.output: str = ""
+        self._files: list[File] = self.submission()
+        self.fss: dict[int:FS] = {}
 
     def __str__(self) -> str:
         return f"{self.assignment.name} ({self.assignment.id})"
@@ -91,5 +114,38 @@ class Assignment(Screen):
     def files(self) -> list[File]:
         return self._files
 
-    def preview(self) -> None:
-        self.post_message(Assignment.Terminal(TerminalView()))
+    def on_fs_response(self, event: FS.Response):
+        logger.debug(f"Assignment fs response: {event}")
+        if event.status.ok:
+            self.post_message(
+                Assignment.Terminal(
+                    TerminalView(
+                        cwd=f"{self.fss[event.id].mount_point}/{self.student_id}"
+                    )
+                    if self.student_id
+                    else TerminalView(
+                        cwd=f"{self.fss[event.id].mount_point}/{self.assignment.name}"
+                    )
+                )
+            )
+
+    def review(self) -> None:
+        root = os.getenv("ROOT_DIR")
+        root += f"/{self.student_id}" if self.student_id else self.assignment.name
+        mnt = os.getenv("MOUNT_POINT")
+        self.post_message(
+            self.Request(
+                self,
+                max(list(self.fss.keys()), default=0),
+                root,
+                mnt,
+            )
+        )
+        # self.post_message(
+        #     FS.Request(
+        #         self,
+        #         max(list(self.fss.keys()), default=0),
+        #         root,
+        #         os.getenv("MOUNT_POINT"),
+        #     )
+        # )

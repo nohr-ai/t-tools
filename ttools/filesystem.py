@@ -53,7 +53,35 @@ logger = get_logger(__name__)
 persistent = set()
 unpacked_dir = set()
 unpacked_files = set()
-supported_formats = patoolib.supported_formats()
+
+
+def _supported_formats(operations=patoolib.ArchiveCommands):
+    """
+    Return a list of supported archive formats for an iterable of operations.
+    Patoolib doesn't support this out of the box, so here's a hack..
+
+    :param operations: The operations to check for, defaults to ArchiveCommands.
+    :type operations:  List|Tuple|Set|Dict[str]
+    :return:           A list of supported archive formats.
+    :rtype:            List[str]
+    """
+    ArchiveFormats = patoolib.ArchiveFormats
+
+    supported = list(ArchiveFormats)
+    for format in ArchiveFormats:
+        # NOTE: If we wish to include supported formats in the CLI
+        # argparse default nargs to an empty list, so we would need some
+        # check to set operations to ArchiveCommands if bool(operations) is False.
+        for command in operations:
+            try:
+                patoolib.find_archive_program(format, command)
+            except patoolib.util.PatoolError:
+                supported.remove(format)
+                break
+    return supported
+
+
+supported_formats = _supported_formats()
 
 
 class FS(Fuse):
@@ -61,6 +89,17 @@ class FS(Fuse):
     Overlay Filesystem
     Mirrors the filesystem tree from some point on(root)
     at the mount_point
+
+    PARAMS:
+    -------
+    dash_s_do: str
+        Run single or multithreaded
+    root: str
+        Path to root of filesystem, default is '/'
+    mount_point: str
+        Path to mountpoint of filesystem
+    nonempty: bool
+        Whether to accept a nonempty root directory, default is False
     """
 
     class Request(Message):
@@ -85,20 +124,41 @@ class FS(Fuse):
 
     def __init__(self, *args, **kw):
         self.root = kw.pop("root", "/")
+        self.mount_point = kw["mountpoint"]
         sys.argv = sys.argv[:1] + [kw.pop("mountpoint"), "-o", "root=" + self.root]
         if kw.pop("nonempty", False):
             sys.argv.append("-o")
             sys.argv.append("nonempty")
+        logger.debug(sys.argv)
+        logger.debug(args)
+        args = ()
+        logger.debug(kw)
+        logger.debug("Init Fuse")
         Fuse.__init__(self, *args, **kw)
+        logger.debug("walk existing fs")
         self.walk_fs()
+        logger.debug("Init done")
+        # self.root = kw.pop("root", ".")
+        # self.mount_point = kw.pop("mountpoint")
+        # sys.argv = [self.mount_point, "-o", "root=" + self.root]
+        # if kw.pop("nonempty", False):
+        #     sys.argv.append("-o")
+        #     sys.argv.append("nonempty")
+        # Fuse.__init__(self, *args, **kw)
+        # self.walk_fs()
 
     def walk_fs(self):
+        """
+        Persist any files/folders that exists at the time of mounting.
+        """
         relative_root = "./"
         for root, dirs, files in os.walk(self.root):
+            logger.debug(f"{root} : {dirs} : {files}")
             for d in dirs:
                 persistent.add(os.path.join(relative_root, d))
             for f in files:
                 persistent.add(os.path.join(relative_root, f))
+        logger.debug(f"Done walking: {self.root}")
 
     def getattr(self, path):
         return os.lstat("." + path)
@@ -112,6 +172,7 @@ class FS(Fuse):
 
     def unlink(self, path):
         global unpacked
+        global persistent
         path = "." + path
         try:
             unpacked_files.remove(path)
@@ -218,21 +279,22 @@ class FS(Fuse):
                 continue
         logger.debug("Cleaned up")
 
-    def run(self, *a, **kw):
+    def run(self):
+        logger.debug("Running FS")
         retval = 0
         try:
             self.parser.add_option(
                 mountopt="root",
                 metavar="PATH",
-                default="/",
+                default=f"{os.getcwd()}",
                 help="Root directory to mount",
             )
             self.parse(values=self, errex=1)
             if self.fuse_args.mount_expected():
                 os.makedirs(self.root, exist_ok=True)
-                os.makedirs(self.parser.fuse_args.mountpoint, exist_ok=True)
+                os.makedirs(self.mount_point, exist_ok=True)
             self.file_class = self.File
-            retval = Fuse.main(self, *a, **kw)
+            retval = Fuse.main(self)
         except OSError as OSE:
             logger.exception(OSE)
             sys.exit(1)
@@ -353,11 +415,11 @@ class FS(Fuse):
             fcntl.lockf(self.fd, op, kw["l_start"], kw["l_len"])
 
 
-def main():
-    FS(
-        dash_s_do="whine",
-        root="/",
-    ).run()
+# def main():
+#     FS(
+#         dash_s_do="whine",
+#         root="/",
+#     ).run()
 
 
 if __name__ == "__main__":
@@ -365,13 +427,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--root",
         type=str,
-        default="/",
+        default=os.getcwd(),
         help="Root directory to mount",
     )
     parser.add_argument(
         "--mountpoint",
         type=str,
-        default="./mnt",
+        default=".mnt",
         help="Mountpoint of the filesystem",
     )
     parser.add_argument(
@@ -382,7 +444,6 @@ if __name__ == "__main__":
         default=False,
     )
     args = parser.parse_args()
-    print(args)
     FS(
         dash_s_do="whine",
         root=args.root,

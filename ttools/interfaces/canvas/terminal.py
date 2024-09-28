@@ -9,6 +9,10 @@ logger = get_logger(__name__)
 
 
 class TerminalView(Screen):
+    def __init__(self, cwd: str) -> None:
+        super().__init__()
+        self.cwd = cwd
+
     def compose(self) -> ComposeResult:
         yield Placeholder("Terminal", id="terminal")
 
@@ -26,7 +30,9 @@ class TerminalView(Screen):
     def start_terminal(self) -> None:
         try:
             self.query_one("#terminal").remove()
-            self.app.mount(Terminal(command=f"{get_shell()}", id="terminal"))
+            self.app.mount(
+                Terminal(command=f"{get_shell()} cd {self.cwd}", id="terminal")
+            )
             terminal: Terminal = self.app.query_one("#terminal")
             terminal.start()
         except Exception as e:
